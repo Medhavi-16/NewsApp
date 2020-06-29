@@ -1,4 +1,4 @@
-package com.news.newsapp;
+package com.news.newsapp.services;
 
 import android.app.NotificationManager;
 import android.content.Context;
@@ -8,6 +8,7 @@ import androidx.core.app.NotificationCompat;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.news.newsapp.R;
 
 public class MyMessagingService extends FirebaseMessagingService {
     @Override
@@ -17,7 +18,7 @@ public class MyMessagingService extends FirebaseMessagingService {
     }
     public void showNotification(String title , String msg)
     {
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "News")
                 .setContentTitle(title)
                 .setContentText(msg)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)

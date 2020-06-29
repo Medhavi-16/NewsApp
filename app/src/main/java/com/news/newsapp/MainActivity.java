@@ -3,6 +3,9 @@ package com.news.newsapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -38,7 +41,16 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        /*FirebaseMessaging.getInstance().subscribeToTopic("NewsApp")
+
+        if (Build.VERSION.SDK_INT>=Build.VERSION_CODES.O)
+        {
+            NotificationChannel channel1=new NotificationChannel("News","News", NotificationManager.IMPORTANCE_DEFAULT);
+
+            NotificationManager manager=getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel1);
+        }
+
+        FirebaseMessaging.getInstance().subscribeToTopic("NewsApp")
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -49,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                         Log.d("TAG", msg);
                         Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
+
+
     }
 }
