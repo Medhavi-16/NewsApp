@@ -1,6 +1,6 @@
 package com.news.newsapp.api;
 
-import com.news.newsapp.NewsModel;
+import com.news.newsapp.model.NewsModel;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

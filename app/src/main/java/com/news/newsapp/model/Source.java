@@ -1,4 +1,4 @@
-package com.news.newsapp;
+package com.news.newsapp.model;
 
 public class Source {
     private String name;
