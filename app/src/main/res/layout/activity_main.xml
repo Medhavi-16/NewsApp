@@ -12,6 +12,7 @@
         layout="@layout/header">
     </include>
 
+
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,6 +24,14 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:textSize="30sp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:orientation="horizontal"
+        android:id="@+id/recyclerCategory"
+        android:layout_marginVertical="10dp"
+        android:padding="5dp"/>
     <com.cooltechworks.views.shimmer.ShimmerRecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
