@@ -8,6 +8,10 @@
     android:orientation="vertical"
     android:background="#4ddce7f3">
 
+    <include
+        layout="@layout/header">
+    </include>
+
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
