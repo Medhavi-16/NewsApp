@@ -2,7 +2,6 @@ package com.news.newsapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
@@ -20,11 +19,13 @@ import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.news.newsapp.adapter.CategoryAdapter;
 import com.news.newsapp.adapter.HeadlinesAdapter;
 import com.news.newsapp.api.ApiClient;
 import com.news.newsapp.model.Articles;
 import com.news.newsapp.model.NewsModel;
-import com.news.newsapp.sharedpreferences.Store_data;
+import com.news.newsapp.sharedpreferences.Store_category;
+import com.news.newsapp.sharedpreferences.Store_country;
 
 import java.util.ArrayList;
 
@@ -38,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
     HeadlinesAdapter adapter;
     Articles[] articles;
     Spinner spinner;
+    String[] categories;
+    RecyclerView category_list;
+    CategoryAdapter categoryAdapter;
+    Store_category store_category;
 
 
     @Override
@@ -46,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         apiClient = new ApiClient();
         initViews();
+        setCategories();
         setFCM();
         spinner_control();
+
 
     }
 
@@ -74,9 +81,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void setApiCall() {
-        Log.e("gftr",new Store_data(getApplicationContext()).get_current_country());
-        Call<NewsModel> newsModelCall = apiClient.getApiinterface().get_data(new Store_data(getApplicationContext()).get_current_country_code(), "a00350c809d34cb294992a0c43471a86");
+    public void setApiCall() {
+        recyclerView.showShimmerAdapter();
+        Log.e("gftr",new Store_country(getApplicationContext()).get_current_country());
+        Call<NewsModel> newsModelCall = apiClient.getApiinterface().get_data(new Store_country(getApplicationContext()).get_current_country_code(), store_category.get_category(), "a00350c809d34cb294992a0c43471a86");
         newsModelCall.enqueue(new Callback<NewsModel>() {
             @Override
             public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
@@ -88,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
                 adapter = new HeadlinesAdapter(MainActivity.this, articles);
                 recyclerView.setAdapter(adapter);
 
+
             }
 
             @Override
@@ -97,10 +106,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    private void setCategories() {
+        categories = new String[]{"General", "Entertainment", "Business", "Sports", "Technology", "Health", "Science"};
+        categoryAdapter = new CategoryAdapter(MainActivity.this, categories, store_category);
+        category_list.setAdapter(categoryAdapter);
+    }
+
     private void initViews() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.showShimmerAdapter();
         spinner=findViewById(R.id.country_spinner);
+        category_list = findViewById(R.id.recyclerCategory);
+        store_category = new Store_category(MainActivity.this);
+
+
+
+
 
     }
 
@@ -112,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
         list.add("China (CN)");
         list.add("Germany (DE)");
         list.add("USA (US)");
-        list.add("Uk (GB)");
+        list.add("UK (GB)");
 
         ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item,list);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -123,10 +144,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
-                Store_data data=new Store_data(getApplicationContext());
+                Store_country data=new Store_country(getApplicationContext());
 
                 data.set_current_country(parent.getItemAtPosition(position).toString());
                 data.set_current_position(position);
+
 
                 setApiCall();
 

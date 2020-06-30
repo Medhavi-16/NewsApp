@@ -5,12 +5,12 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-public class Store_data {
+public class Store_country {
 
     public SharedPreferences preferences;
     public SharedPreferences.Editor editor;
 
-    public Store_data(Context context)
+    public Store_country(Context context)
     {
         preferences = PreferenceManager.getDefaultSharedPreferences(context);
         editor = preferences.edit();
