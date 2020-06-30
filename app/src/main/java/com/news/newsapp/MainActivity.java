@@ -139,6 +139,13 @@ public class MainActivity extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
 
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setSelection(new Store_country(getApplicationContext()).get_spinner_position());
+            }
+        });
+        //  spinner.setSelection(0,false);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -146,10 +153,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
                 Store_country data=new Store_country(getApplicationContext());
 
-                data.set_current_country(parent.getItemAtPosition(position).toString());
-                data.set_current_position(position);
-
-
+                if (position != 0) {
+                    data.set_current_country(parent.getItemAtPosition(position).toString());
+                    data.set_current_position(position);
+                }
                 setApiCall();
 
             }
