@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 recyclerView.hideShimmerAdapter();
                 articles = new Articles[Integer.parseInt(response.body().getTotalResults())];
                 articles = response.body().getArticles();
-                adapter = new HeadlinesAdapter(getApplicationContext() , articles);
+                adapter = new HeadlinesAdapter(MainActivity.this , articles);
                 recyclerView.setAdapter(adapter);
 
             }
