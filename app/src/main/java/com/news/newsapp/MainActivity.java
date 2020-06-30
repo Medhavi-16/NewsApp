@@ -2,8 +2,6 @@ package com.news.newsapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -25,7 +23,6 @@ import com.news.newsapp.api.ApiClient;
 import com.news.newsapp.model.Articles;
 import com.news.newsapp.model.NewsModel;
 import com.news.newsapp.sharedpreferences.Store_data;
-
 import java.util.ArrayList;
 
 import retrofit2.Call;
@@ -75,7 +72,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setApiCall() {
-        Log.e("gftr",new Store_data(getApplicationContext()).get_current_country());
         Call<NewsModel> newsModelCall = apiClient.getApiinterface().get_data(new Store_data(getApplicationContext()).get_current_country_code(), "a00350c809d34cb294992a0c43471a86");
         newsModelCall.enqueue(new Callback<NewsModel>() {
             @Override
@@ -100,13 +96,12 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.showShimmerAdapter();
-        spinner=findViewById(R.id.country_spinner);
+        spinner = findViewById(R.id.country_spinner);
 
     }
 
-    public void spinner_control()
-    {
-        ArrayList<String> list=new ArrayList<>();
+    public void spinner_control() {
+        ArrayList<String> list = new ArrayList<>();
         list.add("India (IN)");
         list.add("Bangladesh (BD)");
         list.add("China (CN)");
@@ -114,22 +109,29 @@ public class MainActivity extends AppCompatActivity {
         list.add("USA (US)");
         list.add("Uk (GB)");
 
-        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item,list);
+        ArrayAdapter arrayAdapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, list);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
 
+        spinner.post(new Runnable() {
+            @Override
+            public void run() {
+                spinner.setSelection(new Store_data(getApplicationContext()).get_spinner_position());
+            }
+        });
+        //  spinner.setSelection(0,false);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-                Toast.makeText(getApplicationContext(),parent.getItemAtPosition(position).toString(),Toast.LENGTH_LONG).show();
-                Store_data data=new Store_data(getApplicationContext());
+                Toast.makeText(getApplicationContext(), parent.getItemAtPosition(position).toString(), Toast.LENGTH_LONG).show();
+                Store_data data = new Store_data(getApplicationContext());
 
-                data.set_current_country(parent.getItemAtPosition(position).toString());
-                data.set_current_position(position);
-
+                if (position != 0) {
+                    data.set_current_country(parent.getItemAtPosition(position).toString());
+                    data.set_current_position(position);
+                }
                 setApiCall();
-
             }
 
             @Override
@@ -145,7 +147,6 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         setApiCall();
     }
-
 
 
 }
