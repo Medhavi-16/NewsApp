@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
     public void spinner_control()
     {
         ArrayList<String> list=new ArrayList<>();
+        list.add("select country");
         list.add("India (IN)");
         list.add("Bangladesh (BD)");
         list.add("China (CN)");
@@ -145,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
                 spinner.setSelection(new Store_country(getApplicationContext()).get_spinner_position());
             }
         });
-        //  spinner.setSelection(0,false);
+        spinner.setSelection(0,false);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
