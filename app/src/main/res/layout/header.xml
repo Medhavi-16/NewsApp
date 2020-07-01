@@ -22,19 +22,20 @@
             android:layout_marginTop="10dp"
             android:id="@+id/country_spinner"
             android:layout_marginBottom="10dp"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@+id/search"
             android:layout_marginLeft="7dp"
-            android:layout_marginRight="7dp">
+            android:layout_marginRight="20dp">
 
         </Spinner>
-    <!--<ImageView
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/search"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_baseline_search_24"/>
--->
+        android:src="@drawable/ic_baseline_search_24"
+        android:layout_centerVertical="true"
+        />
+
 
 </RelativeLayout>

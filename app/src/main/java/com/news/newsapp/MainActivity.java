@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
 import android.widget.Spinner;
 import android.widget.Toast;
+import androidx.appcompat.widget.SearchView;
 
 import com.cooltechworks.views.shimmer.ShimmerRecyclerView;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView category_list;
     CategoryAdapter categoryAdapter;
     Store_category store_category;
+    ImageView search, back;
+    SearchView searchView;
+    LinearLayout search_layout;
 
 
     @Override
@@ -54,7 +61,73 @@ public class MainActivity extends AppCompatActivity {
         setCategories();
         setFCM();
         spinner_control();
+        setClickListeners();
 
+
+    }
+
+    private void setClickListeners() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener()
+        {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                setQueryCall(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                setQueryCall(newText);
+
+                return true;
+            }
+
+
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_layout.setVisibility(View.GONE);
+                category_list.setVisibility(View.VISIBLE);
+                setApiCall();
+
+
+            }
+        });
+        search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_layout.setVisibility(View.VISIBLE);
+                category_list.setVisibility(View.GONE);
+
+            }
+        });
+
+    }
+
+    private void setQueryCall(String newText) {
+        recyclerView.showShimmerAdapter();
+        Call<NewsModel> newsModelCall = apiClient.getApiinterface().get_query_data(newText, "a00350c809d34cb294992a0c43471a86");
+        newsModelCall.enqueue(new Callback<NewsModel>() {
+            @Override
+            public void onResponse(Call<NewsModel> call, Response<NewsModel> response) {
+                System.out.println("No. of articles " + response.body().getTotalResults());
+                System.out.println("Status " + response.body().getStatus());
+                recyclerView.hideShimmerAdapter();
+                articles = new Articles[Integer.parseInt(response.body().getTotalResults())];
+                articles = response.body().getArticles();
+                adapter = new HeadlinesAdapter(MainActivity.this, articles);
+                recyclerView.setAdapter(adapter);
+
+
+            }
+
+            @Override
+            public void onFailure(Call<NewsModel> call, Throwable t) {
+
+            }
+        });
+        Toast.makeText(getApplicationContext(),newText,Toast.LENGTH_LONG).show();
 
     }
 
@@ -118,6 +191,10 @@ public class MainActivity extends AppCompatActivity {
         spinner=findViewById(R.id.country_spinner);
         category_list = findViewById(R.id.recyclerCategory);
         store_category = new Store_category(MainActivity.this);
+        search = findViewById(R.id.search);
+        searchView = findViewById(R.id.searchview);
+        search_layout = findViewById(R.id.search_layout);
+        back = findViewById(R.id.back);
 
 
 
