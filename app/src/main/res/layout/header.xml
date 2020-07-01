@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="@color/colorPrimary">
+    android:background="@color/colorPrimary"
+    android:paddingVertical="5dp">
 
 
     <TextView
@@ -16,26 +17,34 @@
         android:layout_marginLeft="15dp">
     </TextView>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true">
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:id="@+id/country_spinner"
-            android:layout_marginBottom="10dp"
-            android:layout_alignLeft="@+id/search"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="7dp"
             android:layout_marginRight="20dp">
 
         </Spinner>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/search"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_baseline_search_24"
-        android:layout_centerVertical="true"
-        />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/search"
+            android:src="@drawable/ic_baseline_search_24"
+            android:layout_gravity="center_vertical"
+
+            />
+
+    </LinearLayout>
+
+
 
 
 </RelativeLayout>
