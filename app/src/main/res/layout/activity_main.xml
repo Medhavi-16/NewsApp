@@ -13,6 +13,8 @@
     </include>
 
 
+
+
     <com.google.android.material.textview.MaterialTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -24,6 +26,13 @@
         android:textColor="@android:color/black"
         android:textStyle="bold"
         android:textSize="30sp" />
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:queryHint="Keyword"
+        android:background="@drawable/searchview_bg"
+        android:layout_margin="10dp"
+        app:iconifiedByDefault="false"/>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
